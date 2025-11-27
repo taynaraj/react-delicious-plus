@@ -105,13 +105,13 @@ export class AuthService {
   }
 
   private generateToken(userId: string, email: string, name: string): string {
-    // Use type assertion to bypass TypeScript strict checking for JWT expiresIn
+    // @ts-expect-error - jsonwebtoken types have issues with expiresIn as string
     return jwt.sign(
       { userId, email, name },
       env.JWT_SECRET,
       {
         expiresIn: env.JWT_EXPIRES_IN,
-      } as jwt.SignOptions
+      }
     );
   }
 }
