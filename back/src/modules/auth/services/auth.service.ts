@@ -105,10 +105,12 @@ export class AuthService {
   }
 
   private generateToken(userId: string, email: string, name: string): string {
-    return jwt.sign(
-      { userId, email, name },
-      env.JWT_SECRET,
-      { expiresIn: env.JWT_EXPIRES_IN } as jwt.SignOptions
-    ) as string;
+    const payload = { userId, email, name };
+    const secret = env.JWT_SECRET;
+    
+    // Cast expiresIn to satisfy TypeScript type checking
+    const expiresIn = env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'];
+    
+    return jwt.sign(payload, secret, { expiresIn });
   }
 }
