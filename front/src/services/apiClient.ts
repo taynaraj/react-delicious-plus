@@ -1,6 +1,18 @@
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-const baseURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
+// Garante que a URL seja absoluta (comece com http:// ou https://)
+const getBaseURL = () => {
+  const envURL = import.meta.env.VITE_API_URL ?? 'http://localhost:3001';
+  
+  // Se não começar com http:// ou https://, adiciona https://
+  if (envURL && !envURL.startsWith('http://') && !envURL.startsWith('https://')) {
+    return `https://${envURL}`;
+  }
+  
+  return envURL;
+};
+
+const baseURL = getBaseURL().replace(/\/$/, ''); // Remove barra final se houver
 
 const apiClient: AxiosInstance = axios.create({
   baseURL,
