@@ -1,7 +1,7 @@
 
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import type { Collection } from '@shared/types/collection';
+import type { Collection, CreateCollectionInput } from '@shared/types/collection';
 import { collectionsService } from '../services/collections.service';
 
 interface CollectionsState {
@@ -13,7 +13,7 @@ interface CollectionsState {
   searchQuery: string;
   
   loadCollections: () => Promise<void>;
-  addCollection: (collection: Omit<Collection, 'id' | 'createdAt'>) => Promise<Collection>;
+  addCollection: (collection: CreateCollectionInput) => Promise<Collection>;
   updateCollection: (id: string, updates: Partial<Collection>) => Promise<Collection>;
   deleteCollection: (id: string) => Promise<void>;
   
