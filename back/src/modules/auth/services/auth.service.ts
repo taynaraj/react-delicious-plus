@@ -105,14 +105,13 @@ export class AuthService {
   }
 
   private generateToken(userId: string, email: string, name: string): string {
-    const payload = { userId, email, name };
-    const secret = env.JWT_SECRET;
-    
-    // Explicitly type the options to satisfy TypeScript
-    const options = {
-      expiresIn: env.JWT_EXPIRES_IN,
-    };
-    
-    return jwt.sign(payload, secret, options as jwt.SignOptions);
+    // Use type assertion to bypass TypeScript strict checking for JWT expiresIn
+    return jwt.sign(
+      { userId, email, name },
+      env.JWT_SECRET,
+      {
+        expiresIn: env.JWT_EXPIRES_IN,
+      } as jwt.SignOptions
+    );
   }
 }
