@@ -105,13 +105,13 @@ export class AuthService {
   }
 
   private generateToken(userId: string, email: string, name: string): string {
-    // @ts-expect-error - jsonwebtoken types have issues with expiresIn as string
-    return jwt.sign(
-      { userId, email, name },
-      env.JWT_SECRET,
-      {
-        expiresIn: env.JWT_EXPIRES_IN,
-      }
-    );
+    const payload = { userId, email, name };
+    const secret = env.JWT_SECRET;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const options: any = {
+      expiresIn: env.JWT_EXPIRES_IN,
+    };
+    
+    return jwt.sign(payload, secret, options);
   }
 }
