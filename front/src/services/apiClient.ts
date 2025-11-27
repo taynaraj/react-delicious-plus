@@ -30,6 +30,20 @@ apiClient.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`;
     }
     
+    // Sanitiza dados para criação de collections: remove campos não permitidos
+    if (config.method === 'post' && config.url?.includes('/api/collections') && config.data) {
+      const allowedFields = ['name', 'emoji', 'description'];
+      const sanitizedData: any = {};
+      
+      for (const field of allowedFields) {
+        if (field in config.data) {
+          sanitizedData[field] = config.data[field];
+        }
+      }
+      
+      config.data = sanitizedData;
+    }
+    
     return config;
   },
   (error) => {
