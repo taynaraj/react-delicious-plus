@@ -14,6 +14,7 @@ export type Collection = z.infer<typeof CollectionSchema>;
 export const CreateCollectionSchema = CollectionSchema.omit({
   id: true,
   createdAt: true,
+  updatedAt: true,
 });
 
 export type CreateCollectionInput = z.infer<typeof CreateCollectionSchema>;
