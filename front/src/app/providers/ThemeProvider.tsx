@@ -1,35 +1,4 @@
-/**
- * THEME PROVIDER
- * 
- * Provider para gerenciar tema claro/escuro.
- * 
- * COMPARAÇÃO ANGULAR → REACT:
- * 
- * No Angular (Material):
- * ```typescript
- * @Injectable({ providedIn: 'root' })
- * export class ThemeService {
- *   private darkMode$ = new BehaviorSubject<boolean>(false);
- *   
- *   toggleTheme() {
- *     const current = this.darkMode$.value;
- *     this.darkMode$.next(!current);
- *   }
- * }
- * ```
- * - Angular usa services com BehaviorSubject
- * - Componentes assinam via async pipe
- * 
- * No React:
- * - Context API para fornecer tema globalmente
- * - Hook customizado para usar o tema
- * - Mais simples e direto
- * 
- * VANTAGENS:
- * - Context API é nativo do React
- * - Fácil de usar com hook customizado
- * - Persistência no localStorage automática
- */
+
 
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 

@@ -1,48 +1,4 @@
-/**
- * REPOSITORY BASE
- * 
- * Interface base para repositórios e implementação usando Dexie.
- * 
- * COMPARAÇÃO ANGULAR → REACT:
- * 
- * No Angular:
- * ```typescript
- * @Injectable({ providedIn: 'root' })
- * export abstract class BaseRepository<T> {
- *   abstract findAll(): Promise<T[]>;
- *   abstract findById(id: string): Promise<T | null>;
- *   // ...
- * }
- * 
- * @Injectable({ providedIn: 'root' })
- * export class BookmarksRepository extends BaseRepository<Bookmark> {
- *   constructor(private db: IndexedDBService) {}
- *   
- *   async findAll(): Promise<Bookmark[]> {
- *     return this.db.getAll('bookmarks');
- *   }
- * }
- * ```
- * - Angular usa classes abstratas e injeção de dependência
- * - Services são injetados via DI
- * 
- * No React:
- * - Usamos interfaces TypeScript (mais leve)
- * - Implementações são objetos/funções (não classes)
- * - Não há DI nativo, mas podemos criar factories
- * 
- * VANTAGENS:
- * - Mais simples que classes abstratas
- * - Mais flexível para composição
- * - Mesmo nível de type-safety
- */
 
-/**
- * Interface base para repositórios
- * 
- * Define o contrato que todos os repositórios devem seguir.
- * Equivalente a uma classe abstrata no Angular.
- */
 export interface IRepository<T> {
   /**
    * Busca todos os registros
@@ -75,21 +31,7 @@ export interface IRepository<T> {
   count(): Promise<number>;
 }
 
-/**
- * Factory para criar um repository usando Dexie
- * 
- * Esta função cria um repository genérico que funciona com qualquer tabela do Dexie.
- * 
- * POR QUE FACTORY:
- * - Evita repetir código de CRUD em cada repository
- * - Centraliza lógica comum (timestamps, validação, etc)
- * - Facilita testes (podemos mockar o table)
- * 
- * No Angular seria um service genérico injetado:
- * ```typescript
- * constructor(private db: IndexedDBService) {}
- * ```
- */
+
 export function createRepository<T extends { id: string; createdAt: string; updatedAt: string }>(
   table: any // Dexie.Table<T, string>
 ): IRepository<T> {
