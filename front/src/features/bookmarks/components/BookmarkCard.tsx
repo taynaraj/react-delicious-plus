@@ -47,7 +47,7 @@ export function BookmarkCard({
   return (
     <div
       className={clsx(
-        'group relative rounded-lg p-6 cursor-pointer',
+        'group relative rounded-lg p-4 sm:p-6 cursor-pointer',
         'bg-white dark:bg-neutral-900',
         'border border-neutral-200 dark:border-neutral-800',
         'shadow-card-sm hover:shadow-card-md',
@@ -61,9 +61,9 @@ export function BookmarkCard({
       aria-label={`Abrir detalhes de ${bookmark.title}`}
     >
 
-      <div className="flex items-start gap-3 mb-3">
+      <div className="flex items-start gap-2 sm:gap-3 mb-3">
         {!imageError ? (
-          <div className="w-20 h-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm relative">
+          <div className="w-16 h-12 sm:w-20 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm relative">
             {bookmark.image ? (
               <img
                 src={bookmark.image}

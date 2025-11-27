@@ -65,7 +65,7 @@ export function BookmarkDrawer({
       onClose={onClose}
       title={bookmark.title}
       width="lg"
-      className="rounded-l-lg"
+      className="sm:rounded-l-lg"
     >
       <div className="space-y-6">
         <div className="flex items-start gap-4 pb-6 border-b border-neutral-200/50 dark:border-neutral-800/50">

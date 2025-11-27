@@ -53,7 +53,7 @@ export function BookmarkFilters({
   return (
     <div
       className={clsx(
-        'space-y-4 rounded-xl p-5',
+        'space-y-4 rounded-xl p-4 sm:p-5',
         'bg-white/80 backdrop-blur-sm dark:bg-neutral-900/80',
         'border border-[rgba(0,0,0,0.08)] dark:border-neutral-800/50',
         className
@@ -123,11 +123,11 @@ export function BookmarkFilters({
             )}
 
             {onFavoriteFilterChange && (
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                 <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   Favoritos:
                 </span>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   <Button
                     type="button"
                     variant={favoriteFilter === null ? 'primary' : 'outline'}
@@ -160,11 +160,11 @@ export function BookmarkFilters({
             )}
 
             {onReadFilterChange && (
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                 <span className="text-sm font-medium text-neutral-700 dark:text-neutral-300">
                   Lidos:
                 </span>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   <Button
                     type="button"
                     variant={readFilter === null ? 'primary' : 'outline'}

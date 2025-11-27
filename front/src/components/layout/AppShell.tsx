@@ -1,4 +1,4 @@
-import { HTMLAttributes, ReactNode } from 'react';
+import { useState, HTMLAttributes, ReactNode } from 'react';
 import { clsx } from 'clsx';
 import { Outlet } from 'react-router-dom';
 import { Sidebar, SidebarItem } from './Sidebar';
@@ -25,6 +25,8 @@ export function AppShell({
   className,
   ...props
 }: AppShellProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   return (
     <div
       className={clsx(
@@ -36,21 +38,28 @@ export function AppShell({
     >
       {/* Navbar */}
       {(navbarLeft || navbarCenter || navbarRight) && (
-        <Navbar left={navbarLeft} center={navbarCenter} right={navbarRight} />
+        <Navbar 
+          left={navbarLeft} 
+          center={navbarCenter} 
+          right={navbarRight}
+          onMenuClick={() => setSidebarOpen(true)}
+        />
       )}
 
       {/* Main Layout */}
       <div className="flex flex-1 overflow-hidden">
-        {/* Sidebar */}
+        {/* Sidebar - Desktop sempre visível, Mobile como drawer */}
         <Sidebar
           items={sidebarItems}
           header={sidebarHeader}
           footer={sidebarFooter}
+          open={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
         />
 
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto scrollbar-thin bg-neutral-50 dark:bg-neutral-950">
-          <div className="container mx-auto px-8 py-6 max-w-[1600px]">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 max-w-[1600px]">
             {children || <Outlet />}
           </div>
         </main>

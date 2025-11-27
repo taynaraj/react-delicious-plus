@@ -101,6 +101,7 @@ export function Drawer({
           'relative z-10 flex h-full flex-col bg-white dark:bg-neutral-900',
           'transform transition-transform duration-150 ease-arc',
           open ? 'translate-x-0' : 'translate-x-full',
+          'w-full sm:w-auto',
           widthClasses[width],
           className
         )}
@@ -111,11 +112,11 @@ export function Drawer({
       >
         {/* Header - Glass effect leve */}
         {(title || showCloseButton) && (
-          <div className="flex items-center justify-between border-b border-neutral-200/50 dark:border-neutral-800/50 px-6 py-5 bg-white/50 dark:bg-neutral-900/50 backdrop-blur-[20px]">
+          <div className="flex items-center justify-between border-b border-neutral-200/50 dark:border-neutral-800/50 px-4 sm:px-6 py-4 sm:py-5 bg-white/50 dark:bg-neutral-900/50 backdrop-blur-[20px]">
             {title && (
               <h2
                 id="drawer-title"
-                className="text-xl font-display font-semibold tracking-tight text-neutral-900 dark:text-neutral-50"
+                className="text-lg sm:text-xl font-display font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 pr-2 truncate"
               >
                 {title}
               </h2>
@@ -124,7 +125,7 @@ export function Drawer({
               <button
                 type="button"
                 onClick={onClose}
-                className="rounded-lg p-1.5 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 hover:bg-neutral-100/60 dark:hover:bg-neutral-800/40 focus:outline-none transition-all duration-150"
+                className="rounded-lg p-1.5 text-neutral-400 hover:text-neutral-600 dark:hover:text-neutral-300 hover:bg-neutral-100/60 dark:hover:bg-neutral-800/40 focus:outline-none transition-all duration-150 flex-shrink-0"
                 aria-label="Fechar drawer"
               >
                 <svg
@@ -146,7 +147,7 @@ export function Drawer({
         )}
 
         {/* Body - Scroll interno com espaçamento maior */}
-        <div className="flex-1 overflow-y-auto px-6 py-6 scrollbar-thin">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6 scrollbar-thin">
           {children}
         </div>
       </div>
