@@ -108,9 +108,11 @@ export class AuthService {
     const payload = { userId, email, name };
     const secret = env.JWT_SECRET;
     
-    // Cast expiresIn to satisfy TypeScript type checking
-    const expiresIn = env.JWT_EXPIRES_IN as jwt.SignOptions['expiresIn'];
+    // Explicitly type the options to satisfy TypeScript
+    const options = {
+      expiresIn: env.JWT_EXPIRES_IN,
+    };
     
-    return jwt.sign(payload, secret, { expiresIn });
+    return jwt.sign(payload, secret, options as jwt.SignOptions);
   }
 }
