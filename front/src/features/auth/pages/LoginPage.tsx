@@ -56,7 +56,7 @@ export default function LoginPage() {
             <img src={Logo} alt="D+" className="h-20 w-20 object-contain" />
           </div>
           <h1 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 mb-1">
-            Bem-vindo de volta
+            Delicios Plus - Seu guardador de links
           </h1>
 
         </div>
