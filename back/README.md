@@ -1,23 +1,21 @@
 # Delicious+ Backend API
 
-Backend API para o Delicious+ construído com Node.js, Express, TypeScript, Prisma e PostgreSQL.
+API REST construída com Node.js, Express, TypeScript, Prisma e PostgreSQL.
+
+---
 
 ## 🚀 Tecnologias
 
-- **Node.js** - Runtime JavaScript
+- **Node.js** - Runtime
 - **Express** - Framework web
-- **TypeScript** - Superset JavaScript com tipagem
-- **Prisma** - ORM para PostgreSQL
-- **PostgreSQL** - Banco de dados relacional
+- **TypeScript** - Tipagem estática
+- **Prisma** - ORM
+- **PostgreSQL** - Banco de dados
 - **JWT** - Autenticação
 - **Zod** - Validação de schemas
 - **bcryptjs** - Hash de senhas
 
-## 📋 Pré-requisitos
-
-- Node.js 18+ instalado
-- PostgreSQL instalado e rodando
-- npm ou yarn
+---
 
 ## 🔧 Configuração
 
@@ -27,198 +25,148 @@ Backend API para o Delicious+ construído com Node.js, Express, TypeScript, Pris
 npm install
 ```
 
-### 2. Configurar variáveis de ambiente
+### 2. Variáveis de ambiente
 
-Copie o arquivo `.env.example` para `.env`:
-
-```bash
-cp .env.example .env
-```
-
-Edite o arquivo `.env` com suas configurações:
+Copie `.env.example` para `.env` e configure:
 
 ```env
-# Database
 DATABASE_URL="postgresql://user:password@localhost:5432/delicious_plus?schema=public"
-
-# JWT
-JWT_SECRET="your-super-secret-jwt-key-change-in-production"
+JWT_SECRET="your-super-secret-jwt-key"
 JWT_EXPIRES_IN="7d"
-
-# Server
 PORT=3001
 NODE_ENV=development
-
-# CORS
 CORS_ORIGIN="http://localhost:5173"
 ```
 
-**Importante:**
-- Substitua `user`, `password` e `delicious_plus` pelos seus dados do PostgreSQL
-- Gere uma `JWT_SECRET` forte e única para produção
-- Ajuste `CORS_ORIGIN` para a URL do seu frontend
-
 ### 3. Configurar Prisma
 
-#### Gerar o cliente Prisma:
-
 ```bash
+# Gerar Prisma Client
 npm run prisma:generate
-```
 
-#### Criar o banco de dados e executar migrations:
-
-```bash
+# Executar migrations
 npm run prisma:migrate
-```
 
-Este comando irá:
-- Criar o banco de dados (se não existir)
-- Executar todas as migrations
-- Gerar o Prisma Client
-
-#### (Opcional) Abrir Prisma Studio para visualizar dados:
-
-```bash
+# (Opcional) Abrir Prisma Studio
 npm run prisma:studio
 ```
 
+---
+
 ## 🏃 Executar
 
-### Modo desenvolvimento (com hot reload):
+### Desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-O servidor estará rodando em `http://localhost:3001`
+Servidor em `http://localhost:3001`
 
-### Build para produção:
+### Produção
 
 ```bash
 npm run build
-```
-
-### Executar em produção:
-
-```bash
 npm start
 ```
 
-## 📁 Estrutura do Projeto
+---
+
+## 📁 Estrutura
 
 ```
 back/
 ├── src/
-│   ├── server.ts              # Entry point do servidor
-│   ├── config/
-│   │   └── env.ts             # Configuração de variáveis de ambiente
-│   ├── prisma/
-│   │   └── schema.prisma      # Schema do Prisma
-│   ├── modules/
-│   │   ├── auth/              # Módulo de autenticação
-│   │   │   └── routes.ts
-│   │   ├── users/             # Módulo de usuários
-│   │   │   └── routes.ts
-│   │   ├── bookmarks/         # Módulo de bookmarks
-│   │   │   └── routes.ts
-│   │   ├── collections/       # Módulo de coleções
-│   │   │   └── routes.ts
-│   │   ├── tags/              # Módulo de tags
-│   │   │   └── routes.ts
-│   │   └── upload/            # Módulo de upload
-│   │       └── routes.ts
-│   └── middlewares/
-│       └── auth.ts            # Middleware de autenticação
-├── dist/                      # Build compilado (gerado)
-├── .env                       # Variáveis de ambiente (não commitado)
-├── .env.example               # Exemplo de variáveis de ambiente
-├── package.json
-├── tsconfig.json
-└── README.md
+│   ├── server.ts              # Entry point
+│   ├── config/                # Configurações
+│   ├── modules/               # Módulos da aplicação
+│   │   ├── auth/
+│   │   ├── users/
+│   │   ├── bookmarks/
+│   │   ├── collections/
+│   │   ├── tags/
+│   │   └── upload/
+│   ├── middlewares/           # Middlewares (auth, errorHandler)
+│   └── shared/                # Código compartilhado
+├── prisma/
+│   └── schema.prisma          # Schema do banco
+└── dist/                      # Build (gerado)
 ```
 
-## 🔌 Rotas Disponíveis
+---
 
-Todas as rotas estão prefixadas com `/api`:
+## 🔌 API Endpoints
 
-### Autenticação (públicas)
-- `POST /api/auth/register` - Registrar novo usuário
+Todas as rotas prefixadas com `/api`:
+
+### Autenticação
+- `POST /api/auth/register` - Registrar usuário
 - `POST /api/auth/login` - Login
 - `POST /api/auth/logout` - Logout
-- `GET /api/auth/me` - Obter usuário atual
+- `GET /api/auth/me` - Usuário atual
 
-### Usuários (protegidas)
-- `GET /api/users` - Listar usuários
-- `GET /api/users/:id` - Obter usuário por ID
-- `PUT /api/users/:id` - Atualizar usuário
-- `DELETE /api/users/:id` - Deletar usuário
+### Bookmarks
+- `GET /api/bookmarks` - Listar
+- `GET /api/bookmarks/:id` - Obter por ID
+- `POST /api/bookmarks` - Criar
+- `PATCH /api/bookmarks/:id` - Atualizar
+- `DELETE /api/bookmarks/:id` - Deletar
 
-### Bookmarks (protegidas)
-- `GET /api/bookmarks` - Listar bookmarks
-- `GET /api/bookmarks/:id` - Obter bookmark por ID
-- `POST /api/bookmarks` - Criar bookmark
-- `PUT /api/bookmarks/:id` - Atualizar bookmark
-- `DELETE /api/bookmarks/:id` - Deletar bookmark
+### Collections
+- `GET /api/collections` - Listar
+- `GET /api/collections/:id` - Obter por ID
+- `POST /api/collections` - Criar
+- `PATCH /api/collections/:id` - Atualizar
+- `DELETE /api/collections/:id` - Deletar
 
-### Collections (protegidas)
-- `GET /api/collections` - Listar coleções
-- `GET /api/collections/:id` - Obter coleção por ID
-- `POST /api/collections` - Criar coleção
-- `PUT /api/collections/:id` - Atualizar coleção
-- `DELETE /api/collections/:id` - Deletar coleção
+### Tags
+- `GET /api/tags` - Listar
+- `GET /api/tags/:id` - Obter por ID
+- `POST /api/tags` - Criar
+- `PATCH /api/tags/:id` - Atualizar
+- `DELETE /api/tags/:id` - Deletar
 
-### Tags (protegidas)
-- `GET /api/tags` - Listar tags
-- `GET /api/tags/:id` - Obter tag por ID
-- `POST /api/tags` - Criar tag
-- `PUT /api/tags/:id` - Atualizar tag
-- `DELETE /api/tags/:id` - Deletar tag
-
-### Upload (protegidas)
+### Upload
 - `POST /api/upload/image` - Upload de imagem
-- `POST /api/upload/file` - Upload de arquivo
 
 ### Health Check
-- `GET /health` - Verificar status do servidor
+- `GET /health` - Status do servidor
+
+---
 
 ## 🔒 Autenticação
 
-As rotas protegidas requerem um token JWT no header:
+Rotas protegidas requerem token JWT:
 
 ```
 Authorization: Bearer <token>
 ```
 
-O middleware `authMiddleware` valida o token e adiciona `userId` e `user` ao objeto `req`.
+O middleware `authMiddleware` valida o token e adiciona `userId` e `user` ao `req`.
 
-## 📝 Próximos Passos
-
-1. Implementar lógica de autenticação (register, login, logout)
-2. Implementar CRUD completo para cada módulo
-3. Adicionar validação de dados com Zod
-4. Implementar upload de arquivos
-5. Adicionar tratamento de erros robusto
-6. Adicionar testes unitários e de integração
-7. Adicionar documentação com Swagger/OpenAPI
+---
 
 ## 🐛 Troubleshooting
 
-### Erro de conexão com PostgreSQL
+### Erro de conexão PostgreSQL
 
-Verifique se:
-- PostgreSQL está rodando
-- As credenciais no `.env` estão corretas
-- O banco de dados existe
+- Verificar se PostgreSQL está rodando
+- Validar credenciais no `.env`
+- Confirmar que o banco existe
 
-### Erro ao executar migrations
+### Erro nas migrations
 
-Certifique-se de que:
-- O Prisma Client foi gerado (`npm run prisma:generate`)
-- O banco de dados está acessível
-- As variáveis de ambiente estão configuradas corretamente
+- Executar `npm run prisma:generate`
+- Verificar acesso ao banco
+- Confirmar variáveis de ambiente
 
-## 📄 Licença
+---
 
-ISC
+## 📋 Scripts Disponíveis
 
+- `npm run dev` - Desenvolvimento com hot reload
+- `npm run build` - Build para produção
+- `npm start` - Executar em produção
+- `npm run prisma:generate` - Gerar Prisma Client
+- `npm run prisma:migrate` - Executar migrations
+- `npm run prisma:studio` - Abrir Prisma Studio
