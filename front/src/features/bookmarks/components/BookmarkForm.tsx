@@ -5,10 +5,12 @@ import { Input } from '@components/ui/Input';
 import { Textarea } from '@components/ui/Textarea';
 import { Button } from '@components/ui/Button';
 import { Select } from '@components/ui/Select';
+import { Modal } from '@components/ui/Modal';
 import { useCollections } from '@features/collections/hooks';
+import { CollectionForm } from '@features/collections/components';
 import { useTags } from '@features/tags/hooks';
 import { clsx } from 'clsx';
-import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { PhotoIcon, XMarkIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { uploadImage } from '@services/uploadService';
 
 export interface BookmarkFormProps {
@@ -58,8 +60,10 @@ export function BookmarkForm({
 }: BookmarkFormProps) {
   const isEditing = !!bookmark;
 
-  const { collections, loadCollections } = useCollections();
+  const { collections, loadCollections, addCollection } = useCollections();
   const { tags, loadTags } = useTags();
+  
+  const [isCollectionModalOpen, setIsCollectionModalOpen] = useState(false);
 
   useEffect(() => {
     loadCollections();
@@ -453,28 +457,87 @@ export function BookmarkForm({
         )}
       </div>
 
-      <Select
-        label="Coleção"
-        value={formData.collectionId || ''}
-        onChange={(e) => {
-          setFormData((prev) => ({ ...prev, collectionId: e.target.value || undefined }));
-          if (errors.collectionId) {
-            setErrors((prev) => ({ ...prev, collectionId: undefined }));
-          }
-        }}
-        error={errors.collectionId}
-        placeholder="Selecione uma coleção (opcional)"
-        helperText="Selecione a coleção a qual este bookmark pertence"
-        disabled={isLoading}
-        className="rounded-xl"
-        options={[
-          { value: '', label: 'Nenhuma coleção' },
-          ...collections.map((collection) => ({
-            value: collection.id,
-            label: collection.name,
-          })),
-        ]}
-      />
+      <div>
+        <Select
+          label="Coleção"
+          value={formData.collectionId || ''}
+          onChange={(e) => {
+            const value = e.target.value;
+            // Se for a opção especial de criar nova coleção
+            if (value === '__create_new__') {
+              setIsCollectionModalOpen(true);
+              // Resetar o select para o valor anterior usando setTimeout para garantir que o estado seja atualizado após o render
+              setTimeout(() => {
+                e.target.value = formData.collectionId || '';
+              }, 0);
+              return;
+            }
+            setFormData((prev) => ({ ...prev, collectionId: value || undefined }));
+            if (errors.collectionId) {
+              setErrors((prev) => ({ ...prev, collectionId: undefined }));
+            }
+          }}
+          error={errors.collectionId}
+          placeholder="Selecione uma coleção (opcional)"
+          helperText="Selecione a coleção a qual este bookmark pertence"
+          disabled={isLoading}
+          className="rounded-xl"
+          options={[
+            { value: '', label: 'Nenhuma coleção' },
+            { value: '__create_new__', label: '➕ Criar nova coleção' },
+            ...collections.map((collection) => ({
+              value: collection.id,
+              label: `${collection.emoji || ''} ${collection.name}`.trim(),
+            })),
+          ]}
+        />
+        
+        {/* Link alternativo para criar coleção */}
+        <button
+          type="button"
+          onClick={() => setIsCollectionModalOpen(true)}
+          disabled={isLoading}
+          className="mt-2 text-sm text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors duration-150 flex items-center gap-1.5"
+        >
+          <PlusIcon className="w-4 h-4" strokeWidth={2} />
+          <span>Criar nova coleção</span>
+        </button>
+      </div>
+      
+      {/* Modal para criar nova coleção */}
+      <Modal
+        open={isCollectionModalOpen}
+        onClose={() => setIsCollectionModalOpen(false)}
+        title="Nova Coleção"
+        size="md"
+      >
+        <CollectionForm
+          onSubmit={async (data) => {
+            try {
+              // Garantir que é um CreateCollectionInput (sem id)
+              if ('id' in data) {
+                throw new Error('Apenas criação de coleção é permitida aqui');
+              }
+              const newCollection = await addCollection(data);
+              // Recarregar lista de coleções para garantir que está atualizada
+              await loadCollections();
+              // Selecionar automaticamente a coleção criada
+              setFormData((prev) => ({ ...prev, collectionId: newCollection.id }));
+              // Fechar o modal
+              setIsCollectionModalOpen(false);
+              // Limpar erro se houver
+              if (errors.collectionId) {
+                setErrors((prev) => ({ ...prev, collectionId: undefined }));
+              }
+            } catch (error) {
+              // Erro será tratado pelo CollectionForm
+              throw error;
+            }
+          }}
+          onCancel={() => setIsCollectionModalOpen(false)}
+          isLoading={isLoading}
+        />
+      </Modal>
 
       <div className="flex items-center justify-end gap-3 pt-4 border-t border-[rgba(0,0,0,0.08)] dark:border-neutral-800/50">
         {onCancel && (

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useCollectionsStore, useCollectionsSelector } from '../store';
-import type { CreateCollectionInput, UpdateCollectionInput } from '@shared/types/collection';
+import type { Collection, CreateCollectionInput, UpdateCollectionInput } from '@shared/types/collection';
 
 export function useCollections() {
   const collections = useCollectionsSelector.useCollections();
@@ -30,9 +30,9 @@ export function useCollections() {
   const setSearchQuery = useCollectionsStore((state) => state.setSearchQuery);
   const clearFilters = useCollectionsStore((state) => state.clearFilters);
 
-  const handleAddCollection = async (collectionData: CreateCollectionInput): Promise<void> => {
+  const handleAddCollection = async (collectionData: CreateCollectionInput): Promise<Collection> => {
     try {
-      await addCollection(collectionData);
+      return await addCollection(collectionData);
     } catch (error) {
       console.error('Erro ao adicionar collection:', error);
       throw error;
