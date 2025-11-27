@@ -107,11 +107,13 @@ export class AuthService {
   private generateToken(userId: string, email: string, name: string): string {
     const payload = { userId, email, name };
     const secret = env.JWT_SECRET;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const options: any = {
-      expiresIn: env.JWT_EXPIRES_IN,
-    };
+    const expiresIn = env.JWT_EXPIRES_IN;
     
-    return jwt.sign(payload, secret, options);
+    // Type assertion to bypass strict type checking for JWT expiresIn option
+    return (jwt.sign as any)(
+      payload,
+      secret,
+      { expiresIn }
+    ) as string;
   }
 }
