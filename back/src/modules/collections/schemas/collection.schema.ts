@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 // Validação para CUID (usado pelo Prisma) ou UUID
-const cuidOrUuidSchema = z.string().min(1, 'ID is required').refine(
+const cuidOrUuidSchema = z.string().min(1, 'ID é obrigatório').refine(
   (val) => {
     // Aceitar CUID (começa com 'c' e tem pelo menos 20 caracteres)
     if (val.startsWith('c') && val.length >= 20) {
@@ -11,11 +11,11 @@ const cuidOrUuidSchema = z.string().min(1, 'ID is required').refine(
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     return uuidRegex.test(val);
   },
-  { message: 'Invalid ID format (must be CUID or UUID)' }
+  { message: 'Formato de ID inválido (deve ser CUID ou UUID)' }
 );
 
 export const createCollectionSchema = z.object({
-  name: z.string().min(1, 'Name is required'),
+  name: z.string().min(1, 'Nome é obrigatório'),
   emoji: z.string().optional().nullable(),
   description: z.string().optional().nullable(),
 });

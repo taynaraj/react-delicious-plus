@@ -45,7 +45,7 @@ app.use('/api/upload', uploadRoutes);
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ error: 'Route not found' });
+  res.status(404).json({ error: 'Rota não encontrada' });
 });
 
 // Global error handler (must be last)

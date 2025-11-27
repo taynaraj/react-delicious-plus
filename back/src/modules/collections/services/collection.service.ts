@@ -35,7 +35,7 @@ export class CollectionService {
     });
 
     if (!collection) {
-      throw new AppError('Collection not found', 404);
+      throw new AppError('Coleção não encontrada', 404);
     }
 
     return collection;
@@ -51,7 +51,7 @@ export class CollectionService {
     });
 
     if (existing) {
-      throw new AppError('Collection name already exists', 409);
+      throw new AppError('Já existe uma coleção com este nome', 409);
     }
 
     const collection = await prisma.collection.create({
@@ -74,7 +74,7 @@ export class CollectionService {
     });
 
     if (!existing) {
-      throw new AppError('Collection not found', 404);
+      throw new AppError('Coleção não encontrada', 404);
     }
 
     // Check if new name conflicts
@@ -88,7 +88,7 @@ export class CollectionService {
       });
 
       if (nameExists) {
-        throw new AppError('Collection name already exists', 409);
+        throw new AppError('Já existe uma coleção com este nome', 409);
       }
     }
 
@@ -113,7 +113,7 @@ export class CollectionService {
     });
 
     if (!collection) {
-      throw new AppError('Collection not found', 404);
+      throw new AppError('Coleção não encontrada', 404);
     }
 
     // Set collectionId to null for all bookmarks in this collection
@@ -127,7 +127,7 @@ export class CollectionService {
       where: { id: collectionId },
     });
 
-    return { message: 'Collection deleted successfully' };
+    return { message: 'Coleção excluída com sucesso' };
   }
 }
 

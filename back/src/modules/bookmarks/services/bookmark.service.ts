@@ -95,7 +95,7 @@ export class BookmarkService {
     });
 
     if (!bookmark) {
-      throw new AppError('Bookmark not found', 404);
+      throw new AppError('Bookmark não encontrado', 404);
     }
 
     return {
@@ -112,7 +112,7 @@ export class BookmarkService {
       });
 
       if (!collection) {
-        throw new AppError('Collection not found', 404);
+        throw new AppError('Coleção não encontrada', 404);
       }
     }
 
@@ -167,7 +167,7 @@ export class BookmarkService {
     });
 
     if (!existingBookmark) {
-      throw new AppError('Bookmark not found', 404);
+      throw new AppError('Bookmark não encontrado', 404);
     }
 
     if (data.collectionId) {
@@ -176,7 +176,7 @@ export class BookmarkService {
       });
 
       if (!collection) {
-        throw new AppError('Collection not found', 404);
+        throw new AppError('Coleção não encontrada', 404);
       }
     }
 
@@ -234,7 +234,7 @@ export class BookmarkService {
     });
 
     if (!bookmark) {
-      throw new AppError('Bookmark not found', 404);
+      throw new AppError('Bookmark não encontrado', 404);
     }
 
     await prisma.bookmark.delete({

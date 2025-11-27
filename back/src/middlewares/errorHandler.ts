@@ -34,18 +34,18 @@ export const errorHandler = (
 
     if (err.code === 'P2002') {
       return res.status(409).json({
-        error: 'Duplicate entry. This record already exists.',
+        error: 'Registro duplicado. Este registro já existe.',
       });
     }
 
     if (err.code === 'P2025') {
       return res.status(404).json({
-        error: 'Record not found.',
+        error: 'Registro não encontrado.',
       });
     }
 
     return res.status(400).json({
-      error: 'Database error occurred.',
+      error: 'Ocorreu um erro no banco de dados.',
     });
   }
 
@@ -60,7 +60,7 @@ export const errorHandler = (
   // Unknown errors
   logger.error('Unknown error:', err);
   return res.status(500).json({
-    error: 'Internal server error',
+    error: 'Erro interno do servidor',
   });
 };
 

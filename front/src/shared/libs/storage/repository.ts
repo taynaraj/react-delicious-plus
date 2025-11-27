@@ -61,7 +61,7 @@ export function createRepository<T extends { id: string; createdAt: string; upda
     async update(id: string, entity: Partial<T>): Promise<T> {
       const existing = await table.get(id);
       if (!existing) {
-        throw new Error(`Entity with id ${id} not found`);
+        throw new Error(`Entidade com id ${id} não encontrada`);
       }
 
       const updated = {

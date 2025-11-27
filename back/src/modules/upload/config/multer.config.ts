@@ -27,7 +27,7 @@ const fileFilter = (req: any, file: Express.Multer.File, cb: multer.FileFilterCa
   if (allowedMimes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error('Invalid file type. Only PNG, JPG, JPEG, and WEBP are allowed.'));
+    cb(new Error('Tipo de arquivo inválido. Apenas PNG, JPG, JPEG e WEBP são permitidos.'));
   }
 };
 

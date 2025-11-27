@@ -23,7 +23,7 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new AppError('Email already registered', 409);
+      throw new AppError('Email já cadastrado', 409);
     }
 
     // Hash password
@@ -59,7 +59,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new AppError('Invalid email or password', 401);
+      throw new AppError('Email ou senha inválidos', 401);
     }
 
     // Verify password
@@ -69,7 +69,7 @@ export class AuthService {
     );
 
     if (!isValidPassword) {
-      throw new AppError('Invalid email or password', 401);
+      throw new AppError('Email ou senha inválidos', 401);
     }
 
     // Generate token
@@ -98,7 +98,7 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new AppError('User not found', 404);
+      throw new AppError('Usuário não encontrado', 404);
     }
 
     return user;

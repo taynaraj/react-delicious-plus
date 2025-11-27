@@ -35,7 +35,7 @@ export class TagService {
     });
 
     if (!tag) {
-      throw new AppError('Tag not found', 404);
+      throw new AppError('Tag não encontrada', 404);
     }
 
     return tag;
@@ -54,7 +54,7 @@ export class TagService {
     });
 
     if (existing) {
-      throw new AppError('Tag name already exists', 409);
+      throw new AppError('Já existe uma tag com este nome', 409);
     }
 
     const tag = await prisma.tag.create({
@@ -76,7 +76,7 @@ export class TagService {
     });
 
     if (!existing) {
-      throw new AppError('Tag not found', 404);
+      throw new AppError('Tag não encontrada', 404);
     }
 
     // Check if new name conflicts (case-insensitive)
@@ -93,7 +93,7 @@ export class TagService {
       });
 
       if (nameExists) {
-        throw new AppError('Tag name already exists', 409);
+        throw new AppError('Já existe uma tag com este nome', 409);
       }
     }
 
@@ -123,7 +123,7 @@ export class TagService {
     });
 
     if (!tag) {
-      throw new AppError('Tag not found', 404);
+      throw new AppError('Tag não encontrada', 404);
     }
 
     // Disconnect tag from all bookmarks
