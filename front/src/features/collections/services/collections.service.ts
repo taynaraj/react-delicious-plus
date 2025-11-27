@@ -23,16 +23,17 @@ export const collectionsService = {
    */
   async createCollection(data: { name: string; emoji?: string | null }): Promise<{ collection: Collection }> {
     // Sanitiza dados removendo campos não permitidos (id, createdAt, updatedAt, etc)
-    const sanitizedData: { name: string; emoji?: string | null } = {
+    // Cria um novo objeto apenas com os campos permitidos
+    const finalData: { name: string; emoji?: string | null } = {
       name: String(data.name || '').trim(),
     };
     
     // Adiciona emoji apenas se estiver presente
     if (data.emoji !== undefined && data.emoji !== null && data.emoji !== '') {
-      sanitizedData.emoji = data.emoji;
+      finalData.emoji = data.emoji;
     }
     
-    const response = await apiClient.post<{ collection: Collection }>('/api/collections', sanitizedData);
+    const response = await apiClient.post<{ collection: Collection }>('/api/collections', finalData);
     return response.data;
   },
 
