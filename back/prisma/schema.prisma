@@ -1,0 +1,69 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  passwordHash  String
+  bookmarks     Bookmark[]
+  collections   Collection[]
+  tags          Tag[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+}
+
+model Bookmark {
+  id           String        @id @default(cuid())
+  title        String
+  url          String
+  description  String?
+  image        String?
+  isFavorite   Boolean       @default(false)
+  isRead       Boolean       @default(false)
+  userId       String
+  user         User          @relation(fields: [userId], references: [id])
+  collectionId String?
+  collection   Collection?   @relation(fields: [collectionId], references: [id])
+  tags         BookmarkTag[]
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+// Collection model
+model Collection {
+  id         String      @id @default(cuid())
+  name       String
+  emoji      String?
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  bookmarks  Bookmark[]
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Tag {
+  id        String        @id @default(cuid())
+  name      String
+  userId    String
+  user      User          @relation(fields: [userId], references: [id])
+  bookmarks BookmarkTag[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model BookmarkTag {
+  bookmarkId String
+  tagId      String
+
+  bookmark   Bookmark @relation(fields: [bookmarkId], references: [id], onDelete: Cascade)
+  tag        Tag      @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([bookmarkId, tagId])
+}

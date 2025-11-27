@@ -1,0 +1,82 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  bookmarks    Bookmark[]
+  collections  Collection[]
+  tags         Tag[]
+
+  @@map("users")
+}
+
+// Bookmark model
+model Bookmark {
+  id          String   @id @default(uuid())
+  title       String
+  url         String
+  description String?
+  image       String?
+  favorite    Boolean  @default(false)
+  read        Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relations
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  collectionId String?
+  collection  Collection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  tags        Tag[]
+
+  @@map("bookmarks")
+}
+
+// Collection model
+model Collection {
+  id         String    @id @default(cuid())
+  name       String
+  emoji      String?
+  userId     String
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookmarks  Bookmark[]
+  createdAt  DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("collections")
+}
+
+// Tag model
+model Tag {
+  id        String   @id @default(uuid())
+  name      String
+  color     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bookmarks Bookmark[]
+
+  @@unique([userId, name])
+  @@map("tags")
+}
+
