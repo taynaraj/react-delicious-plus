@@ -50,7 +50,7 @@ export function Sidebar({ items, header, footer, className, ...props }: SidebarP
       )}
 
       {/* Navigation*/}
-      <nav className="flex-1 overflow-y-auto px-3 py-4 scrollbar-thin">
+      <nav className="flex-1 overflow-y-auto px-3 py-4 scrollbar-thin flex flex-col">
         <ul className="space-y-1">
           {items.map((item) => {
             const isActive = location.pathname === item.to || 
@@ -87,14 +87,14 @@ export function Sidebar({ items, header, footer, className, ...props }: SidebarP
             );
           })}
         </ul>
+        
+        {/* Footer dentro do nav */}
+        {footer && (
+          <div className="mt-6 pt-4 border-t border-neutral-200 dark:border-neutral-800">
+            {footer}
+          </div>
+        )}
       </nav>
-
-      {/* Footer */}
-      {footer && (
-        <div className="px-4 py-4 border-t border-neutral-200 dark:border-neutral-800">
-          {footer}
-        </div>
-      )}
     </aside>
   );
 }

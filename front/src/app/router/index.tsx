@@ -11,6 +11,7 @@ import TagsPage from '@features/tags/pages/TagsPage';
 import BackupPage from '@features/backup/pages/BackupPage';
 import DesignSystemPage from '@features/bookmarks/pages/DesignSystemPage';
 import Logo from '@assets/logo/dplus-logo.png';
+import { EnvelopeIcon } from '@heroicons/react/24/outline';
 
 const HomeIcon = () => (
   <svg className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,6 +82,39 @@ const NavbarLeft = () => (
   </div>
 );
 
+/**
+ * Footer do Sidebar com créditos
+ */
+const SidebarFooter = () => (
+  <div className="space-y-2.5">
+    <p className="text-xs text-neutral-500 dark:text-neutral-400 text-center leading-relaxed">
+      Desenvolvido por <span className="font-semibold text-neutral-700 dark:text-neutral-300">Taynara Jaegger</span>
+    </p>
+    <div className="flex items-center justify-center gap-3">
+      <a
+        href="mailto:taynaraj@gmail.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center w-9 h-9 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/20 active:scale-95 transition-all duration-150"
+        aria-label="Enviar email para Taynara Jaegger"
+      >
+        <EnvelopeIcon className="w-5 h-5" strokeWidth={2} />
+      </a>
+      <a
+        href="https://www.linkedin.com/in/taynara/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center w-9 h-9 rounded-lg text-neutral-500 dark:text-neutral-400 hover:text-primary-600 dark:hover:text-primary-400 hover:bg-primary-50 dark:hover:bg-primary-950/20 active:scale-95 transition-all duration-150"
+        aria-label="LinkedIn de Taynara Jaegger"
+      >
+        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+);
+
 export const router = createBrowserRouter([
   // Rotas públicas (não requerem autenticação)
   {
@@ -107,6 +141,7 @@ export const router = createBrowserRouter([
         <AppShell
           sidebarItems={sidebarItems}
           sidebarHeader={<SidebarHeader />}
+          sidebarFooter={<SidebarFooter />}
           navbarLeft={<NavbarLeft />}
         />
       </ProtectedRoute>
