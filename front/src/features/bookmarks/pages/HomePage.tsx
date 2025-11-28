@@ -7,7 +7,7 @@ import { EmptyState } from '@components/ui';
 import { Spinner } from '@components/ui';
 import { Button } from '@components/ui/Button';
 import { Bookmark } from '@shared/types/bookmark';
-import { MagnifyingGlassIcon, PlusIcon, BookmarkIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { debounce } from '@shared/utils/debounce';
 import { useAuthStore } from '@app/providers/auth';
 
@@ -213,23 +213,59 @@ export default function HomePage() {
       </div>
 
       {/* Cards de Estatísticas */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
-        <div className="rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm p-6">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Total</p>
-          <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">{totalBookmarks}</p>
-        </div>
-        <div className="rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm p-6">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Favoritos</p>
-          <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">{favoriteBookmarks}</p>
-        </div>
-        <div className="rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm p-6">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Para ler</p>
-          <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">{unreadBookmarks}</p>
-        </div>
-        <div className="rounded-lg bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 shadow-sm p-6">
-          <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-1">Lidos</p>
-          <p className="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">{readBookmarks}</p>
-        </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+        <button
+          type="button"
+          onClick={() => setActiveFilter('all')}
+          className={clsx(
+            'rounded-lg bg-white dark:bg-neutral-900 border shadow-sm p-3 text-left transition-all duration-150 hover:shadow-md',
+            activeFilter === 'all'
+              ? 'border-primary-500 dark:border-primary-500 ring-2 ring-primary-500/20'
+              : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700'
+          )}
+        >
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-0.5">Total</p>
+          <p className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">{totalBookmarks}</p>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveFilter('favorites')}
+          className={clsx(
+            'rounded-lg bg-white dark:bg-neutral-900 border shadow-sm p-3 text-left transition-all duration-150 hover:shadow-md',
+            activeFilter === 'favorites'
+              ? 'border-primary-500 dark:border-primary-500 ring-2 ring-primary-500/20'
+              : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700'
+          )}
+        >
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-0.5">Favoritos</p>
+          <p className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">{favoriteBookmarks}</p>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveFilter('unread')}
+          className={clsx(
+            'rounded-lg bg-white dark:bg-neutral-900 border shadow-sm p-3 text-left transition-all duration-150 hover:shadow-md',
+            activeFilter === 'unread'
+              ? 'border-primary-500 dark:border-primary-500 ring-2 ring-primary-500/20'
+              : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700'
+          )}
+        >
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-0.5">Para ler</p>
+          <p className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">{unreadBookmarks}</p>
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveFilter('read')}
+          className={clsx(
+            'rounded-lg bg-white dark:bg-neutral-900 border shadow-sm p-3 text-left transition-all duration-150 hover:shadow-md',
+            activeFilter === 'read'
+              ? 'border-primary-500 dark:border-primary-500 ring-2 ring-primary-500/20'
+              : 'border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700'
+          )}
+        >
+          <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-0.5">Lidos</p>
+          <p className="text-xl font-semibold text-neutral-900 dark:text-neutral-50">{readBookmarks}</p>
+        </button>
       </div>
 
       {/* Busca e Filtros */}
