@@ -201,20 +201,20 @@ export default function BookmarksPage() {
         </p>
       </div>
 
-      <div className="mb-8 flex items-center gap-3">
+      <div className="mb-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-2">
         <div className="flex-1 relative">
-          <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-neutral-400 dark:text-neutral-500 pointer-events-none" strokeWidth={2} />
+          <MagnifyingGlassIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-neutral-400 dark:text-neutral-500 pointer-events-none" strokeWidth={2} />
           <input
             type="text"
             placeholder="Buscar..."
             value={localSearchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 text-sm bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-neutral-300 dark:focus:ring-neutral-700 rounded-lg transition-colors duration-150"
+            className="w-full pl-9 pr-3 py-1.5 text-xs bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 text-neutral-900 dark:text-neutral-50 placeholder:text-neutral-400 dark:placeholder:text-neutral-500 focus:outline-none focus:ring-1 focus:ring-primary-500 dark:focus:ring-primary-400 rounded-lg transition-all duration-150"
           />
         </div>
 
         {/* Filtros */}
-        <div className="flex items-center gap-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 p-1 rounded-lg">
+        <div className="flex items-center gap-0.5 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-800 p-0.5 rounded-lg">
           {([
             { key: 'all', label: 'Todos' },
             { key: 'favorites', label: 'Favoritos' },
@@ -226,7 +226,7 @@ export default function BookmarksPage() {
               type="button"
               onClick={() => setActiveFilter(key)}
               className={clsx(
-                'px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150',
+                'px-2 py-1 rounded text-xs font-medium transition-colors duration-150',
                 activeFilter === key
                   ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-900 dark:text-neutral-50'
                   : 'text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100'
