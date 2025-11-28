@@ -11,6 +11,9 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(32),
   JWT_EXPIRES_IN: z.string().default('7d'),
   
+  // Encryption
+  ENCRYPTION_KEY: z.string().min(32),
+  
   // Server
   PORT: z.string().transform(Number).default('3001'),
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),

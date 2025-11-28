@@ -6,6 +6,7 @@ import {
   GetBookmarksQuery
 } from '../schemas/bookmark.schema';
 import { PaginatedResponse } from '../../../shared/types';
+import { EncryptionService } from '../../../shared/utils/encryption';
 
 export class BookmarkService {
 
@@ -15,15 +16,8 @@ export class BookmarkService {
   ): Promise<PaginatedResponse<any>> {
     const { search, tag, collectionId, isFavorite, isRead, limit, offset } = query;
 
-    const where: any = {
+    const baseWhere: any = {
       userId,
-      ...(search && {
-        OR: [
-          { title: { contains: search, mode: 'insensitive' } },
-          { description: { contains: search, mode: 'insensitive' } },
-          { url: { contains: search, mode: 'insensitive' } },
-        ],
-      }),
       ...(collectionId && { collectionId }),
       ...(isFavorite !== undefined && { isFavorite }),
       ...(isRead !== undefined && { isRead }),
@@ -38,9 +32,12 @@ export class BookmarkService {
       }),
     };
 
-    const [bookmarks, total] = await Promise.all([
-      prisma.bookmark.findMany({
-        where,
+    let bookmarks: any[];
+    let total: number;
+
+    if (search) {
+      const allBookmarks = await prisma.bookmark.findMany({
+        where: baseWhere,
         include: {
           tags: {
             include: {
@@ -56,18 +53,61 @@ export class BookmarkService {
           }
         },
         orderBy: { updatedAt: 'desc' },
-        take: limit,
-        skip: offset,
-      }),
+      });
 
-      prisma.bookmark.count({ where }),
-    ]);
+      const searchLower = search.toLowerCase();
+      const filteredBookmarks = allBookmarks.filter((bookmark) => {
+        try {
+          const decryptedTitle = EncryptionService.decrypt(bookmark.title);
+          const decryptedDescription = bookmark.description 
+            ? EncryptionService.decrypt(bookmark.description)
+            : '';
+          const decryptedUrl = EncryptionService.decrypt(bookmark.url);
+          
+          return (
+            decryptedTitle.toLowerCase().includes(searchLower) ||
+            decryptedDescription.toLowerCase().includes(searchLower) ||
+            decryptedUrl.toLowerCase().includes(searchLower)
+          );
+        } catch (error) {
+          return false;
+        }
+      });
+
+      total = filteredBookmarks.length;
+      bookmarks = filteredBookmarks.slice(offset, offset + limit);
+    } else {
+      const [bookmarksResult, totalResult] = await Promise.all([
+        prisma.bookmark.findMany({
+          where: baseWhere,
+          include: {
+            tags: {
+              include: {
+                tag: true
+              }
+            },
+            collection: {
+              select: {
+                id: true,
+                name: true,
+                emoji: true
+              }
+            }
+          },
+          orderBy: { updatedAt: 'desc' },
+          take: limit,
+          skip: offset,
+        }),
+
+        prisma.bookmark.count({ where: baseWhere }),
+      ]);
+
+      bookmarks = bookmarksResult;
+      total = totalResult;
+    }
 
     return {
-      data: bookmarks.map((b) => ({
-        ...b,
-        tags: this.sanitizeBookmarkTags(b.tags),
-      })),
+      data: bookmarks.map((b) => this.decryptBookmark(b)),
       total,
       limit,
       offset,
@@ -98,10 +138,7 @@ export class BookmarkService {
       throw new AppError('Bookmark não encontrado', 404);
     }
 
-    return {
-      ...bookmark,
-      tags: this.sanitizeBookmarkTags(bookmark.tags),
-    };
+    return this.decryptBookmark(bookmark);
   }
 
   async createBookmark(userId: string, data: CreateBookmarkInput) {
@@ -122,16 +159,15 @@ export class BookmarkService {
     // Create bookmark
     const bookmark = await prisma.bookmark.create({
       data: {
-        title: data.title,
-        url: data.url,
-        description: data.description ?? null,
-        image: data.image ?? null,
+        title: EncryptionService.encrypt(data.title),
+        url: EncryptionService.encrypt(data.url),
+        description: EncryptionService.encryptOptional(data.description),
+        image: EncryptionService.encryptOptional(data.image),
         isFavorite: data.favorite ?? false,
         isRead: data.read ?? false,
         userId,
         collectionId: data.collectionId ?? null,
         tags: {
-          // O JEITO CORRETO DE RELACIONAR COM A PIVOT BookmarkTag
           create: tagIds.map((tagId) => ({
             tag: { connect: { id: tagId } }
           }))
@@ -151,10 +187,7 @@ export class BookmarkService {
       }
     });
 
-    return {
-      ...bookmark,
-      tags: this.sanitizeBookmarkTags(bookmark.tags),
-    };
+    return this.decryptBookmark(bookmark);
   }
 
   async updateBookmark(
@@ -188,10 +221,14 @@ export class BookmarkService {
       : undefined;
 
     const updateData: any = {
-      ...(data.title && { title: data.title }),
-      ...(data.url && { url: data.url }),
-      ...(data.description !== undefined && { description: data.description }),
-      ...(data.image !== undefined && { image: data.image }),
+      ...(data.title && { title: EncryptionService.encrypt(data.title) }),
+      ...(data.url && { url: EncryptionService.encrypt(data.url) }),
+      ...(data.description !== undefined && { 
+        description: EncryptionService.encryptOptional(data.description) 
+      }),
+      ...(data.image !== undefined && { 
+        image: EncryptionService.encryptOptional(data.image) 
+      }),
       ...(data.favorite !== undefined && { isFavorite: data.favorite }),
       ...(data.read !== undefined && { isRead: data.read }),
       ...(data.collectionId !== undefined && { collectionId: data.collectionId }),
@@ -203,7 +240,7 @@ export class BookmarkService {
         ...updateData,
         ...(tagIds !== undefined && {
           tags: {
-            deleteMany: {}, // limpa pivot
+            deleteMany: {},
             create: tagIds.map((tagId) => ({
               tag: { connect: { id: tagId } }
             }))
@@ -222,10 +259,7 @@ export class BookmarkService {
       }
     });
 
-    return {
-      ...bookmark,
-      tags: this.sanitizeBookmarkTags(bookmark.tags),
-    };
+    return this.decryptBookmark(bookmark);
   }
 
   async deleteBookmark(userId: string, bookmarkId: string) {
@@ -324,6 +358,21 @@ export class BookmarkService {
     }
 
     return tagIds;
+  }
+
+  private decryptBookmark(bookmark: any): any {
+    try {
+      return {
+        ...bookmark,
+        title: EncryptionService.decrypt(bookmark.title),
+        url: EncryptionService.decrypt(bookmark.url),
+        description: EncryptionService.decryptOptional(bookmark.description),
+        image: EncryptionService.decryptOptional(bookmark.image),
+        tags: this.sanitizeBookmarkTags(bookmark.tags),
+      };
+    } catch (error) {
+      throw new AppError('Erro ao descriptografar bookmark', 500);
+    }
   }
   
 }
