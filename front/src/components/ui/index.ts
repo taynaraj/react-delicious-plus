@@ -17,3 +17,4 @@ export { PageLoader, type PageLoaderProps } from './PageLoader';
 export { EmptyState, type EmptyStateProps } from './EmptyState';
 export { ConfirmDeleteModal, type ConfirmDeleteModalProps } from './ConfirmDeleteModal';
 export { EmojiPicker, type EmojiPickerProps } from './EmojiPicker';
+export { AddToHomeScreen } from './AddToHomeScreen';
