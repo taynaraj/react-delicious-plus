@@ -168,7 +168,7 @@ export default function BookmarksPage() {
         <h1 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-neutral-50 mb-1">
           {(() => {
             const tag = searchParams.get('tag');
-            return tag ? `Bookmarks – Tag: ${tag}` : 'Bookmarks';
+            return tag ? `Bookmarks – Tag: ${tag}` : 'Bookmarks (Links favoritos)';
           })()}
         </h1>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">

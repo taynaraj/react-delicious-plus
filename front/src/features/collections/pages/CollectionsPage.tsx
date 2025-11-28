@@ -106,7 +106,7 @@ export default function CollectionsPage() {
               Coleções
             </h1>
             <p className="text-sm text-neutral-500 dark:text-neutral-400 tracking-tight leading-relaxed">
-              Organize seus bookmarks em grupos personalizados.
+              Organize seus bookmarks (links favoritos) em grupos personalizados.
             </p>
           </div>
 
