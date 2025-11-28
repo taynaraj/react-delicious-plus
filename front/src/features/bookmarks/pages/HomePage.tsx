@@ -5,8 +5,9 @@ import { useBookmarks } from '@features/bookmarks/hooks';
 import { BookmarkGrid, BookmarkDrawer } from '@features/bookmarks/components';
 import { EmptyState } from '@components/ui';
 import { Spinner } from '@components/ui';
+import { Button } from '@components/ui/Button';
 import { Bookmark } from '@shared/types/bookmark';
-import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { debounce } from '@shared/utils/debounce';
 import { useAuthStore } from '@app/providers/auth';
 
@@ -190,6 +191,22 @@ export default function HomePage() {
         </h1>
         <p className="text-base text-neutral-600 dark:text-neutral-400">
           Gerencie seus bookmarks de forma organizada e eficiente.
+        </p>
+      </div>
+
+      {/* Botão Adicionar Link - Centralizado */}
+      <div className="mb-8 flex flex-col items-center justify-center">
+        <Button
+          onClick={handleAddNew}
+          variant="primary"
+          size="lg"
+          className="flex items-center gap-2"
+        >
+          <PlusIcon className="h-5 w-5" strokeWidth={2} />
+          <span>Adicionar link</span>
+        </Button>
+        <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">
+          Adicione seu Bookmark
         </p>
       </div>
 
