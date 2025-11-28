@@ -194,15 +194,7 @@ export default function HomePage() {
         </p>
       </div>
 
-      {/* Card Explicativo: O que é Bookmark? */}
-      <div className="mb-8 rounded-lg bg-gradient-to-br from-primary-50 to-primary-100/50 dark:from-primary-950/30 dark:to-primary-900/20 border border-primary-200/50 dark:border-primary-800/50 p-6 shadow-sm">
-        <div className="flex items-start gap-4">
-          <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-500/10 dark:bg-primary-500/20 flex items-center justify-center">
-            <BookmarkIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" strokeWidth={2} />
-          </div>
-        
-        </div>
-      </div>
+    
 
       {/* Botão Adicionar Link - Centralizado */}
       <div className="mb-8 flex flex-col items-center justify-center">
