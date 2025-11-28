@@ -119,6 +119,14 @@ export default function LoginPage() {
                 'Entrar'
               )}
             </Button>
+
+            {/* Aviso de Segurança */}
+            <div className="flex items-start gap-2 mt-4 pt-3 border-t border-neutral-200 dark:border-neutral-800">
+              <span className="text-sm flex-shrink-0 mt-0.5">🔒</span>
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 leading-relaxed">
+                Sua conexão é segura. Todos os dados de login são transmitidos com criptografia SSL/TLS de ponta a ponta, em conformidade com a LGPD.
+              </p>
+            </div>
           </form>
 
           <div className="mt-6 space-y-3 text-center text-sm">
