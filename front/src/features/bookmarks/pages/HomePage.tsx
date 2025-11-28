@@ -190,7 +190,7 @@ export default function HomePage() {
           {user ? `Olá, ${user.name.split(' ')[0]}` : 'Olá!'}
         </h1>
         <p className="text-base text-neutral-600 dark:text-neutral-400">
-          Gerencie seus bookmarks de forma organizada e eficiente.
+          Gerencie seus bookmarks (links favoritos) de forma organizada e eficiente.
         </p>
       </div>
 
