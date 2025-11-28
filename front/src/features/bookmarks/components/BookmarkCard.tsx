@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Bookmark } from '@shared/types/bookmark';
 import { Tag } from '@components/ui';
-import { HeartIcon, BookOpenIcon, PhotoIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, BookOpenIcon, PhotoIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon, BookOpenIcon as BookSolidIcon } from '@heroicons/react/24/solid';
 import { clsx } from 'clsx';
 
@@ -49,7 +49,7 @@ export function BookmarkCard({
   return (
     <div
       className={clsx(
-        'group relative rounded-lg p-4 sm:p-6 cursor-pointer',
+        'group relative rounded-lg p-3 cursor-pointer',
         'bg-white dark:bg-neutral-900',
         'border border-neutral-200 dark:border-neutral-800',
         'shadow-card-sm hover:shadow-card-md',
@@ -64,7 +64,7 @@ export function BookmarkCard({
     >
 
       {/* Primeira linha: Imagem com altura fixa */}
-      <div className="w-full h-32 rounded-lg mb-3 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm relative">
+      <div className="w-full h-24 rounded-lg mb-2 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm relative">
         {!imageError ? (
           <>
             {bookmark.image ? (
@@ -100,7 +100,7 @@ export function BookmarkCard({
       </div>
 
       {/* Segunda linha: Título, URL e Ícones com altura fixa */}
-      <div className="flex items-start gap-2 mb-3 h-14">
+      <div className="flex items-start gap-2 mb-2 h-12">
         <div className="flex-1 min-w-0">
           <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-50 mb-1 line-clamp-2 tracking-tight leading-tight">
             {bookmark.title}
@@ -148,13 +148,13 @@ export function BookmarkCard({
       </div>
 
       {bookmark.description && (
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3 line-clamp-3 leading-relaxed">
+        <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-2 line-clamp-2 leading-relaxed">
           {bookmark.description}
         </p>
       )}
 
       {bookmark.tags.length > 0 && (
-        <div className="flex flex-wrap gap-1.5 mb-3">
+        <div className="flex flex-wrap gap-1 mb-2">
           {bookmark.tags.slice(0, 3).map((tag, index) => (
             <Tag
               key={`${bookmark.id}-tag-${index}-${typeof tag === 'string' ? tag : tag.id}`}
@@ -173,7 +173,7 @@ export function BookmarkCard({
       )}
 
       <div className="flex items-center justify-between">
-        <div className="text-xs text-neutral-400 dark:text-neutral-500">
+        <div className="text-[10px] text-neutral-400 dark:text-neutral-500">
           {new Date(bookmark.createdAt).toLocaleDateString('pt-BR', {
             day: '2-digit',
             month: 'short',
@@ -181,7 +181,7 @@ export function BookmarkCard({
           })}
         </div>
         
-        {/* Botão de Excluir - Discreto embaixo */}
+        {/* Ícone de Excluir - Sempre visível com opacity baixa */}
         {onDelete && (
           <button
             type="button"
@@ -189,10 +189,10 @@ export function BookmarkCard({
               e.stopPropagation();
               onDelete?.(bookmark);
             }}
-            className="opacity-0 group-hover:opacity-100 px-2 py-1 rounded text-[10px] font-medium text-red-500/70 hover:text-red-600 dark:text-red-400/70 dark:hover:text-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-all duration-150"
+            className="opacity-40 hover:opacity-70 p-1 rounded text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-all duration-150"
             aria-label="Excluir bookmark"
           >
-            Excluir
+            <TrashIcon className="w-3.5 h-3.5" strokeWidth={1.7} />
           </button>
         )}
       </div>
