@@ -73,17 +73,7 @@ export default function RegisterPage() {
           <p className="text-sm text-neutral-500 dark:text-neutral-400 mb-3">
             Comece a organizar seus links favoritos
           </p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-50 dark:bg-primary-950/30 border border-primary-200/50 dark:border-primary-800/50">
-            <span className="text-2xl">📌</span>
-            <div className="text-left">
-              <p className="text-xs font-medium text-neutral-900 dark:text-neutral-50">
-                Bookmark = Link favorito
-              </p>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                Salve e organize seus links importantes
-              </p>
-            </div>
-          </div>
+         
         </div>
 
         {/* Formulário */}
