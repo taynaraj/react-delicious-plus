@@ -172,7 +172,7 @@ export default function BookmarksPage() {
           })()}
         </h1>
         <p className="text-sm text-neutral-500 dark:text-neutral-400">
-          Todos os seus bookmarks organizados
+          Todos os seus bookmarks (links favoritos) organizados
         </p>
       </div>
 
