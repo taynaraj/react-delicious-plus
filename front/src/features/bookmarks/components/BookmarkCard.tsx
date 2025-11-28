@@ -62,6 +62,20 @@ export function BookmarkCard({
       tabIndex={0}
       aria-label={`Abrir detalhes de ${bookmark.title}`}
     >
+      {/* Ícone de Excluir - Fixo no bottom right */}
+      {onDelete && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            onDelete?.(bookmark);
+          }}
+          className="absolute bottom-2 right-2 opacity-40 hover:opacity-70 p-1.5 rounded text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-all duration-150 z-10"
+          aria-label="Excluir bookmark"
+        >
+          <TrashIcon className="w-3.5 h-3.5" strokeWidth={1.7} />
+        </button>
+      )}
 
       {/* Primeira linha: Imagem com altura fixa */}
       <div className="w-full h-24 rounded-lg mb-2 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm relative">
@@ -172,29 +186,12 @@ export function BookmarkCard({
         </div>
       )}
 
-      <div className="flex items-center justify-between">
-        <div className="text-[10px] text-neutral-400 dark:text-neutral-500">
-          {new Date(bookmark.createdAt).toLocaleDateString('pt-BR', {
-            day: '2-digit',
-            month: 'short',
-            year: 'numeric',
-          })}
-        </div>
-        
-        {/* Ícone de Excluir - Sempre visível com opacity baixa */}
-        {onDelete && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete?.(bookmark);
-            }}
-            className="opacity-40 hover:opacity-70 p-1 rounded text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-all duration-150"
-            aria-label="Excluir bookmark"
-          >
-            <TrashIcon className="w-3.5 h-3.5" strokeWidth={1.7} />
-          </button>
-        )}
+      <div className="text-[10px] text-neutral-400 dark:text-neutral-500">
+        {new Date(bookmark.createdAt).toLocaleDateString('pt-BR', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+        })}
       </div>
     </div>
   );
