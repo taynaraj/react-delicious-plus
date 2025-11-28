@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/icons/android-chrome-512x512.png",
+      "src": "/icons/dplus-logo.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
