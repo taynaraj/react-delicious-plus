@@ -66,7 +66,7 @@ const SidebarHeader = () => (
         Delicious+
       </h2>
       <p className="text-xs text-neutral-500 dark:text-neutral-400">
-        Seus Bookmarks
+        Seus Bookmarks (links favoritos)
       </p>
     </div>
   </div>
