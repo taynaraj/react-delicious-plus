@@ -61,17 +61,7 @@ export default function LoginPage() {
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">
             Seu guardador de links favoritos
           </p>
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-50 dark:bg-primary-950/30 border border-primary-200/50 dark:border-primary-800/50">
-            <span className="text-2xl">📌</span>
-            <div className="text-left">
-              <p className="text-xs font-medium text-neutral-900 dark:text-neutral-50">
-                Bookmark = Link favorito
-              </p>
-              <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                Organize seus links em um só lugar
-              </p>
-            </div>
-          </div>
+         
         </div>
 
         <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 rounded-lg p-6 shadow-sm">

@@ -200,16 +200,7 @@ export default function HomePage() {
           <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-500/10 dark:bg-primary-500/20 flex items-center justify-center">
             <BookmarkIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" strokeWidth={2} />
           </div>
-          <div className="flex-1">
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50 mb-2">
-              📌 O que é um Bookmark?
-            </h2>
-            <p className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
-              <strong className="text-primary-600 dark:text-primary-400">Bookmark = Link favorito!</strong> É aquele site incrível que você encontrou e não quer perder. 
-              Como um marcador de página digital, guarde seus links importantes em um só lugar, 
-              organizados por coleções e sempre à mão quando precisar.
-            </p>
-          </div>
+        
         </div>
       </div>
 
