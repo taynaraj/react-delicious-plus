@@ -63,9 +63,10 @@ export function BookmarkCard({
       aria-label={`Abrir detalhes de ${bookmark.title}`}
     >
 
-      <div className="flex items-start gap-2 sm:gap-3 mb-3">
+      {/* Primeira linha: Imagem com altura fixa */}
+      <div className="w-full h-32 rounded-lg mb-3 flex items-center justify-center bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm relative">
         {!imageError ? (
-          <div className="w-16 h-12 sm:w-20 sm:h-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-neutral-100 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 overflow-hidden shadow-sm relative">
+          <>
             {bookmark.image ? (
               <img
                 src={bookmark.image}
@@ -75,7 +76,6 @@ export function BookmarkCard({
               />
             ) : (
               <>
-
                 <div className="absolute top-0 left-0 right-0 h-2.5 bg-neutral-200 dark:bg-neutral-700 flex items-center gap-1 px-1.5 z-10">
                   <div className="flex items-center gap-1">
                     <div className="w-1 h-1 rounded-full bg-red-400"></div>
@@ -93,15 +93,16 @@ export function BookmarkCard({
                 />
               </>
             )}
-          </div>
+          </>
         ) : (
-          <div className="w-20 h-14 rounded-lg flex items-center justify-center flex-shrink-0 bg-primary-500/10 dark:bg-primary-500/20 border border-neutral-200 dark:border-neutral-700 shadow-sm">
-            <PhotoIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" strokeWidth={1.5} />
-          </div>
+          <PhotoIcon className="w-8 h-8 text-primary-600 dark:text-primary-400" strokeWidth={1.5} />
         )}
+      </div>
 
+      {/* Segunda linha: Título, URL e Ícones com altura fixa */}
+      <div className="flex items-start gap-2 mb-3 h-14">
         <div className="flex-1 min-w-0">
-          <h3 className="font-semibold text-base text-neutral-900 dark:text-neutral-50 mb-1 line-clamp-2 tracking-tight">
+          <h3 className="font-semibold text-sm text-neutral-900 dark:text-neutral-50 mb-1 line-clamp-2 tracking-tight leading-tight">
             {bookmark.title}
           </h3>
           <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate">
@@ -109,7 +110,7 @@ export function BookmarkCard({
           </p>
         </div>
 
-        <div className="flex-shrink-0 flex items-center gap-1.5">
+        <div className="flex-shrink-0 flex items-center gap-0.5">
           {/* Toggle Favorito */}
           <button
             type="button"

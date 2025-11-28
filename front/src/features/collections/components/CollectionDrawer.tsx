@@ -130,8 +130,7 @@ export function CollectionDrawer({
         onClose={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
         title="Excluir Coleção"
-        message="Tem certeza que deseja excluir esta coleção?"
-        itemName={collection.name}
+        message={`Tem certeza que deseja excluir "${collection.name}"?`}
         isLoading={isDeleting}
       />
     </Drawer>

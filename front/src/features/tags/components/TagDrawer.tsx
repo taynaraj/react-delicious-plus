@@ -124,8 +124,7 @@ export function TagDrawer({
         onClose={handleDeleteCancel}
         onConfirm={handleDeleteConfirm}
         title="Excluir Tag"
-        message="Tem certeza que deseja excluir esta tag?"
-        itemName={tag.name}
+        message={`Tem certeza que deseja excluir "${tag.name}"?`}
         isLoading={isDeleting}
       />
     </Drawer>

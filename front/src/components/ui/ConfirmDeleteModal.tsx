@@ -6,7 +6,6 @@ export interface ConfirmDeleteModalProps {
   onConfirm: () => void;
   title?: string;
   message?: string;
-  itemName?: string;
   isLoading?: boolean;
 }
 
@@ -16,7 +15,6 @@ export function ConfirmDeleteModal({
   onConfirm,
   title = 'Excluir',
   message = 'Tem certeza que deseja excluir este item?',
-  itemName,
   isLoading = false,
 }: ConfirmDeleteModalProps) {
   const handleConfirm = (e: React.MouseEvent) => {

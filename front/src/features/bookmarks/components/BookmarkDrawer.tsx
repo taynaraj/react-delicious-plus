@@ -221,8 +221,7 @@ export function BookmarkDrawer({
         onClose={() => setShowDeleteModal(false)}
         onConfirm={handleDeleteConfirm}
         title="Excluir Bookmark"
-        message="Tem certeza que deseja excluir este bookmark?"
-        itemName={bookmark.title}
+        message={`Tem certeza que deseja excluir "${bookmark.title}"?`}
         isLoading={isDeleting}
       />
     </Drawer>
