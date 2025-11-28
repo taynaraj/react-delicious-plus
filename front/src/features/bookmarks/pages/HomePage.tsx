@@ -6,6 +6,7 @@ import { BookmarkGrid, BookmarkDrawer } from '@features/bookmarks/components';
 import { EmptyState } from '@components/ui';
 import { Spinner } from '@components/ui';
 import { Button } from '@components/ui/Button';
+import { ConfirmDeleteModal } from '@components/ui/ConfirmDeleteModal';
 import { Bookmark } from '@shared/types/bookmark';
 import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { debounce } from '@shared/utils/debounce';
@@ -32,6 +33,8 @@ export default function HomePage() {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
   const [activeFilter, setActiveFilter] = useState<'all' | 'favorites' | 'unread' | 'read'>('all');
+  const [bookmarkToDelete, setBookmarkToDelete] = useState<Bookmark | null>(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   // Debounce da busca
   const debouncedSearch = useMemo(
@@ -86,6 +89,28 @@ export default function HomePage() {
     try {
       await deleteBookmark(bookmark.id);
       handleCloseDrawer();
+    } catch (error) {
+      console.error('Erro ao excluir bookmark:', error);
+      alert('Erro ao excluir bookmark');
+    }
+  };
+
+  const handleDeleteClick = (bookmark: Bookmark) => {
+    setBookmarkToDelete(bookmark);
+    setShowDeleteModal(true);
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!bookmarkToDelete) return;
+    
+    try {
+      await deleteBookmark(bookmarkToDelete.id);
+      setShowDeleteModal(false);
+      setBookmarkToDelete(null);
+      
+      if (selectedBookmark?.id === bookmarkToDelete.id) {
+        handleCloseDrawer();
+      }
     } catch (error) {
       console.error('Erro ao excluir bookmark:', error);
       alert('Erro ao excluir bookmark');
@@ -342,6 +367,7 @@ export default function HomePage() {
           onCardClick={handleCardClick}
           onToggleFavorite={handleToggleFavorite}
           onToggleRead={handleToggleRead}
+          onDelete={handleDeleteClick}
           className="gap-6"
         />
       )}
@@ -358,6 +384,18 @@ export default function HomePage() {
           onToggleRead={handleToggleRead}
         />
       )}
+
+      {/* Modal de Confirmação de Exclusão */}
+      <ConfirmDeleteModal
+        open={showDeleteModal}
+        onClose={() => {
+          setShowDeleteModal(false);
+          setBookmarkToDelete(null);
+        }}
+        onConfirm={handleDeleteConfirm}
+        title="Excluir Bookmark"
+        message={`Tem certeza que deseja excluir "${bookmarkToDelete?.title}"?`}
+      />
     </div>
   );
 }

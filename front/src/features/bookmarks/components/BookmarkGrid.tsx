@@ -8,6 +8,7 @@ export interface BookmarkGridProps {
   onCardClick?: BookmarkCardProps['onClick'];
   onToggleFavorite?: BookmarkCardProps['onToggleFavorite'];
   onToggleRead?: BookmarkCardProps['onToggleRead'];
+  onDelete?: BookmarkCardProps['onDelete'];
   className?: string;
 }
 
@@ -16,6 +17,7 @@ export function BookmarkGrid({
   onCardClick,
   onToggleFavorite,
   onToggleRead,
+  onDelete,
   className,
 }: BookmarkGridProps) {
   if (bookmarks.length === 0) {
@@ -36,6 +38,7 @@ export function BookmarkGrid({
           onClick={onCardClick}
           onToggleFavorite={onToggleFavorite}
           onToggleRead={onToggleRead}
+          onDelete={onDelete}
         />
       ))}
     </div>

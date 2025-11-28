@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Bookmark } from '@shared/types/bookmark';
 import { Tag } from '@components/ui';
-import { HeartIcon, BookOpenIcon, PhotoIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, BookOpenIcon, PhotoIcon, TrashIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon, BookOpenIcon as BookSolidIcon } from '@heroicons/react/24/solid';
 import { clsx } from 'clsx';
 
@@ -10,6 +10,7 @@ export interface BookmarkCardProps {
   onClick?: (bookmark: Bookmark) => void;
   onToggleFavorite?: (bookmark: Bookmark) => void;
   onToggleRead?: (bookmark: Bookmark) => void;
+  onDelete?: (bookmark: Bookmark) => void;
   className?: string;
 }
 
@@ -18,6 +19,7 @@ export function BookmarkCard({
   onClick,
   onToggleFavorite,
   onToggleRead,
+  onDelete,
   className,
 }: BookmarkCardProps) {
   const getHostname = (url: string) => {
@@ -141,6 +143,21 @@ export function BookmarkCard({
               <BookOpenIcon className="w-4 h-4" strokeWidth={1.7} />
             )}
           </button>
+
+          {/* Excluir */}
+          {onDelete && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete?.(bookmark);
+              }}
+              className="p-1.5 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-50/60 dark:hover:bg-red-950/20 transition-all duration-150"
+              aria-label="Excluir bookmark"
+            >
+              <TrashIcon className="w-4 h-4" strokeWidth={1.7} />
+            </button>
+          )}
         </div>
       </div>
 
