@@ -7,7 +7,7 @@ import { EmptyState } from '@components/ui';
 import { Spinner } from '@components/ui';
 import { Button } from '@components/ui/Button';
 import { Bookmark } from '@shared/types/bookmark';
-import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, PlusIcon, BookmarkIcon } from '@heroicons/react/24/outline';
 import { debounce } from '@shared/utils/debounce';
 import { useAuthStore } from '@app/providers/auth';
 
@@ -192,6 +192,25 @@ export default function HomePage() {
         <p className="text-base text-neutral-600 dark:text-neutral-400">
           Gerencie seus bookmarks de forma organizada e eficiente.
         </p>
+      </div>
+
+      {/* Card Explicativo: O que é Bookmark? */}
+      <div className="mb-8 rounded-lg bg-gradient-to-br from-primary-50 to-primary-100/50 dark:from-primary-950/30 dark:to-primary-900/20 border border-primary-200/50 dark:border-primary-800/50 p-6 shadow-sm">
+        <div className="flex items-start gap-4">
+          <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-primary-500/10 dark:bg-primary-500/20 flex items-center justify-center">
+            <BookmarkIcon className="w-6 h-6 text-primary-600 dark:text-primary-400" strokeWidth={2} />
+          </div>
+          <div className="flex-1">
+            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-50 mb-2">
+              📌 O que é um Bookmark?
+            </h2>
+            <p className="text-sm text-neutral-700 dark:text-neutral-300 leading-relaxed">
+              <strong className="text-primary-600 dark:text-primary-400">Bookmark = Link favorito!</strong> É aquele site incrível que você encontrou e não quer perder. 
+              Como um marcador de página digital, guarde seus links importantes em um só lugar, 
+              organizados por coleções e sempre à mão quando precisar.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Botão Adicionar Link - Centralizado */}
