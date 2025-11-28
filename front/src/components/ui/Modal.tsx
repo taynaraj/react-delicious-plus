@@ -102,8 +102,8 @@ export function Modal({
       aria-modal="true"
       aria-labelledby={title ? 'modal-title' : undefined}
     >
-      {/* Overlay com blur */}
-      <div className="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity" />
+      {/* Overlay discreto */}
+      <div className="fixed inset-0 bg-black/30 transition-opacity" />
 
       {/* Modal Content */}
       <div

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Bookmark } from '@shared/types/bookmark';
 import { Tag } from '@components/ui';
-import { HeartIcon, BookOpenIcon, PhotoIcon, TrashIcon } from '@heroicons/react/24/outline';
+import { HeartIcon, BookOpenIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import { HeartIcon as HeartSolidIcon, BookOpenIcon as BookSolidIcon } from '@heroicons/react/24/solid';
 import { clsx } from 'clsx';
 
@@ -143,21 +143,6 @@ export function BookmarkCard({
               <BookOpenIcon className="w-4 h-4" strokeWidth={1.7} />
             )}
           </button>
-
-          {/* Excluir */}
-          {onDelete && (
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                onDelete?.(bookmark);
-              }}
-              className="p-1.5 rounded-lg text-neutral-400 hover:text-red-500 hover:bg-red-50/60 dark:hover:bg-red-950/20 transition-all duration-150"
-              aria-label="Excluir bookmark"
-            >
-              <TrashIcon className="w-4 h-4" strokeWidth={1.7} />
-            </button>
-          )}
         </div>
       </div>
 
@@ -186,12 +171,29 @@ export function BookmarkCard({
         </div>
       )}
 
-      <div className="text-xs text-neutral-400 dark:text-neutral-500">
-        {new Date(bookmark.createdAt).toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-        })}
+      <div className="flex items-center justify-between">
+        <div className="text-xs text-neutral-400 dark:text-neutral-500">
+          {new Date(bookmark.createdAt).toLocaleDateString('pt-BR', {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+          })}
+        </div>
+        
+        {/* Botão de Excluir - Discreto embaixo */}
+        {onDelete && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onDelete?.(bookmark);
+            }}
+            className="opacity-0 group-hover:opacity-100 px-2 py-1 rounded text-[10px] font-medium text-red-500/70 hover:text-red-600 dark:text-red-400/70 dark:hover:text-red-400 hover:bg-red-50/50 dark:hover:bg-red-950/20 transition-all duration-150"
+            aria-label="Excluir bookmark"
+          >
+            Excluir
+          </button>
+        )}
       </div>
     </div>
   );

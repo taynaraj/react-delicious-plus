@@ -393,8 +393,8 @@ export default function HomePage() {
           setBookmarkToDelete(null);
         }}
         onConfirm={handleDeleteConfirm}
-        title="Excluir Bookmark"
-        message={`Tem certeza que deseja excluir "${bookmarkToDelete?.title}"?`}
+        title=""
+        message={`Excluir "${bookmarkToDelete?.title}"?`}
       />
     </div>
   );
